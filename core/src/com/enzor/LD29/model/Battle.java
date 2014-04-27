@@ -3,6 +3,8 @@ package com.enzor.LD29.model;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import com.enzor.LD29.model.Action.ActionType;
+
 public class Battle {
 
 	Party team1;
@@ -31,13 +33,35 @@ public class Battle {
 		return result;
 	}
 	
+	//todo this function may be useless...
 	void doActions()
 	{
 		while(activeFighters.size() > 0)
 		{
 			Fighter current = activeFighters.peek();
-			current.doNextAction();
-			activeFighters.remove();
+			//current.doNextAction();
+			//activeFighters.remove();
+		}
+	}
+	
+	void processNextFighter()
+	{
+		if(activeFighters.size() > 0)
+		{
+			Fighter nextFighter = activeFighters.peek();
+			if(nextFighter.ownerParty.equals(team1))
+			{
+				//player-owned fighter
+				//todo - figure out how to wait while allowing the player to choose this character's next action.
+				//todo nextFighter.setNextAction()
+				nextFighter.doNextAction();
+			}
+			else
+			{
+				//Bad AI for now - attack first of player's team
+				nextFighter.setNextAction(new Action(ActionType.ACTION_ATTACK, team1.fighters.get(0)));
+				nextFighter.doNextAction();
+			}
 		}
 	}
 	

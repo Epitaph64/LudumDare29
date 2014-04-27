@@ -9,10 +9,14 @@ public class Action {
 	
 	ActionType type;
 	Fighter target;
+	float timeCost;
 	
 	public Action(ActionType t, Fighter aTarget)
 	{
 		type = t;
 		target = aTarget;
+		
+		//default time cost: 10
+		timeCost = 10;
 	}
 }

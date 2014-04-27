@@ -32,13 +32,23 @@ public class Fighter implements Comparable<Fighter> {
 	//Action
 	Action nextAction;
 	
+	//Party
+	Party ownerParty;
+	
 	static float getAttackDamage(Fighter attacker, Fighter target)
 	{
-		float damage = attacker.strength.finalValue; //todo will final value be calcualted?
+		attacker.strength.calculateFinalValue();
+		target.defense.calculateFinalValue();
+		float damage = attacker.strength.finalValue;
 		if(attacker.hasWeapon)
 			damage *= attacker.weapon.getDamageRoll();
 		
 		return damage/target.defense.finalValue;
+	}
+	
+	void setNextAction(Action action)
+	{
+		nextAction = action;
 	}
 	
 	void doNextAction()
@@ -47,6 +57,9 @@ public class Fighter implements Comparable<Fighter> {
 		{
 			nextAction.target.currentHealth -= getAttackDamage(this, nextAction.target);
 		}
+		
+		moveTimer += nextAction.timeCost;
+		canMove = false;
 	}
 	
 	void processTurn()
