@@ -10,11 +10,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Resources {
 
 	// Texture related
-	private Texture spriteSheet;
-	private Map<SpriteName, Sprite> spriteMap;
+	private static Texture spriteSheet;
+	private static Map<SpriteName, Sprite> spriteMap;
 
-	public Resources() {
-
+	public static void initializeResources() {
 		spriteMap = new HashMap<SpriteName, Sprite>();
 
 		// Load the sprite sheet
@@ -45,15 +44,15 @@ public class Resources {
 	}
 
 	// return sprite from map based on name given
-	public Sprite getSprite(SpriteName spriteName) {
+	public static Sprite getSprite(SpriteName spriteName) {
 		return spriteMap.get(spriteName);
 	}
 
-	public enum SpriteName {
+	public static enum SpriteName {
 		WATER, SAND, GRASS, FOREST, MOUNTAIN, SNOW;
 	}
 
-	public void dispose() {
+	public static void dispose() {
 		spriteSheet.dispose();
 	}
 

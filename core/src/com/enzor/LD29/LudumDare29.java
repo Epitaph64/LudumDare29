@@ -11,14 +11,14 @@ public class LudumDare29 extends Game implements ApplicationListener {
 
 	@Override
 	public void create() {
-		resources = new Resources();
+		Resources.initializeResources();
 		gameScreen = new OverworldScreen();
 		setScreen(gameScreen);
 	}
 
 	@Override
 	public void dispose() {
-		resources.dispose();
+		Resources.dispose();
 		super.dispose();
 	}
 

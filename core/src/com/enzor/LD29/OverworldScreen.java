@@ -102,7 +102,7 @@ public class OverworldScreen implements Screen {
 		batch.begin();
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
-				batch.draw(LudumDare29.resources.getSprite(map[x][y]), x * 16, y * 16);
+				batch.draw(Resources.getSprite(map[x][y]), x * 16, y * 16);
 			}
 		}
 
