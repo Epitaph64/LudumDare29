@@ -2,7 +2,9 @@ package com.enzor.LD29.model;
 
 import java.util.ArrayList;
 
-public class Fighter {
+import com.enzor.LD29.model.Action.ActionType;
+
+public class Fighter implements Comparable<Fighter> {
 
 	//Stats
 	Stat strength;
@@ -22,6 +24,18 @@ public class Fighter {
 	//Movetimer
 	float moveTimer; //The amount of 'move points' needed before the fighter can perform another action
 	boolean canMove;
+	
+	//Action
+	Action nextAction;
+	
+	void doNextAction()
+	{
+		if(nextAction.type == ActionType.ACTION_ATTACK)
+		{
+			//todo
+			//nextAction.target.currentHealth -= strength.finalValue; //todo will finalValue have been calculated by then?
+		}
+	}
 	
 	void processTurn()
 	{
@@ -55,6 +69,11 @@ public class Fighter {
 		moveTimer -= speed.finalValue;
 		if(moveTimer < 0)
 			canMove = true;
+	}
+
+	@Override
+	public int compareTo(Fighter o) {
+		return (moveTimer < o.moveTimer) ? 0 : 1;
 	}
 	
 }
