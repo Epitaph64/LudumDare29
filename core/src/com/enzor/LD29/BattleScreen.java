@@ -5,14 +5,16 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.enzor.LD29.Resources.SpriteName;
 import com.enzor.LD29.controller.Controller;
 
 public class BattleScreen implements Screen {
 
 	private SpriteBatch batch;
-	private OrthographicCamera camera;
-	
+	private PerspectiveCamera camera;
+
 	private LudumDare29 game;
 
 	public BattleScreen(LudumDare29 ludumDare29) {
@@ -25,9 +27,12 @@ public class BattleScreen implements Screen {
 		// Create SpriteBatch and load necessary textures
 		batch = new SpriteBatch();
 
-		// Setup camera with 2X zoom
-		camera = new OrthographicCamera(160, 100);
-		camera.translate(80, 50);
+		// Setup camera with with perspective
+		camera = new PerspectiveCamera(67, 160, 100);
+		camera.position.set(80, 0, 60);
+		camera.lookAt(80, 90, 0);
+		camera.near = 0.1f;
+		camera.far = 300f;
 		camera.update();
 
 		// Override the default input processor to get one-off key pushed events
@@ -47,11 +52,15 @@ public class BattleScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		// TODO
+		for (int x = -5; x < 15; x++) {
+			for (int y = 0; y < 7; y++) {
+				batch.draw(Resources.getSprite(SpriteName.MOUNTAIN), x * 16, y * 16);
+			}
+		}
 		batch.end();
 	}
 

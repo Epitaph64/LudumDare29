@@ -8,12 +8,7 @@ import javax.swing.JPanel;
 
 // Followed tutorial at http://lodev.org/cgtutor/randomnoise.html
 
-public class NoiseGenerator extends JFrame {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8997468768517053471L;
+public class NoiseGenerator {
 
 	MersenneTwister mt;
 
@@ -22,25 +17,7 @@ public class NoiseGenerator extends JFrame {
 
 	private static boolean createWindow = false;
 
-	public static void main(String[] args) {
-		createWindow = true;
-		NoiseGenerator testingWindow = new NoiseGenerator(64, 64);
-		testingWindow.setVisible(true);
-	}
-
 	public NoiseGenerator(int width, int height) {
-		// Set up window stuff
-		if (createWindow) {
-			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setTitle("Noise Generator Testing Window");
-			// I think we can set this to false now since we're setting the size
-			// manually
-			setResizable(false);
-			setSize(640, 640);
-			setLocationRelativeTo(null);
-			add(new GraphicsPanel());
-		}
-
 		this.width = width;
 		this.height = height;
 		// Seed the random number generator with the hash code of the seed
@@ -54,18 +31,6 @@ public class NoiseGenerator extends JFrame {
 	}
 
 	public NoiseGenerator(int width, int height, String seed) {
-		// Set up window stuff
-		if (createWindow) {
-			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setTitle("Noise Generator Testing Window");
-			// I think we can set this to false now since we're setting the size
-			// manually
-			setResizable(false);
-			setSize(640, 620);
-			setLocationRelativeTo(null);
-			add(new GraphicsPanel());
-		}
-
 		this.width = width;
 		this.height = height;
 		// Seed the random number generator with the hash code of the seed
@@ -75,51 +40,6 @@ public class NoiseGenerator extends JFrame {
 			for (int y = 0; y < height; y++) {
 				noise[x][y] = mt.nextDouble();
 				
-			}
-		}
-	}
-
-	class GraphicsPanel extends JPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -5093657122060988440L;
-
-		GraphicsPanel() {
-
-		}
-
-		@Override
-		public void paintComponent(Graphics g) {
-			Graphics2D g2 = (Graphics2D) g;
-			for (int x = 0; x < width * 20; x++) {
-				for (int y = 0; y < height * 20; y++) {
-					float value = 0;
-					if (Math.sqrt((x - 320) * (x - 320) + (y - 300) * (y - 300)) < 300) {
-						value = (float) turbulence(x, y, 100);
-						if (value < 0.29f) {
-							g2.setColor(new Color(0, 0, 128));
-						} else if (value < 0.43f) {
-							g2.setColor(Color.blue);
-						} else if (value < 0.45f) {
-							g2.setColor(Color.yellow);
-						} else if (value < 0.54f) {
-							g2.setColor(Color.green);
-						} else if (value < 0.6) {
-							g2.setColor(new Color(0, 192, 0));
-						} else if (value < 0.70f) {
-							g2.setColor(new Color(0, 128, 0));
-						} else if (value < 0.74f) {
-							g2.setColor(new Color(139, 69, 19));
-						} else {
-							g2.setColor(Color.white);
-						}
-					} else {
-						g2.setColor(Color.black);
-					}
-					// g2.setColor(new Color(value, value, value));
-					g2.fillRect(x, y, 1, 1);
-				}
 			}
 		}
 	}
