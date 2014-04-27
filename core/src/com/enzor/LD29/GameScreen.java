@@ -13,56 +13,30 @@ import com.enzor.LD29.helpers.NoiseGenerator;
 
 public class GameScreen implements Screen {
 
+	private Resources resources;
+
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 
-	// Texture related
-	private Texture img;
-	private TextureRegion grassTexture;
-	private TextureRegion waterTexture;
-	private TextureRegion roadTexture;
-	private TextureRegion sandTexture;
-	private TextureRegion forestTexture;
-
-	enum Terrain {
-		SPACE, WATER, SAND, GRASS, FOREST, MOUNTAIN, SNOW;
-	}
-
-	Terrain[][] map;
+	Resources.SpriteName[][] map;
 	int w = 192;
 	int h = 128;
 
 	@Override
 	public void show() {
+
 		// Create SpriteBatch and load necessary textures
 		batch = new SpriteBatch();
-		img = new Texture("tex.png");
 
 		// Init variables
-		map = new Terrain[w][h];
+		resources = new Resources();
+		map = new Resources.SpriteName[w][h];
 
 		// Setup camera with 2X zoom
-		camera = new OrthographicCamera(Gdx.graphics.getWidth() * 4,
-				Gdx.graphics.getHeight() * 4);
-		camera.translate(Gdx.graphics.getWidth() * 2,
-				Gdx.graphics.getHeight() * 2);
+		camera = new OrthographicCamera(Gdx.graphics.getWidth() * 4, Gdx.graphics.getHeight() * 4);
+		camera.translate(Gdx.graphics.getWidth() * 2, Gdx.graphics.getHeight() * 2);
 		camera.update();
 
-		/*
-		 * 
-		 * Initialize sub-textures
-		 */
-
-		// Row 1
-		grassTexture = new TextureRegion(img, 0, 0, 16, 16);
-		waterTexture = new TextureRegion(img, 16, 0, 16, 16);
-		forestTexture = new TextureRegion(img, 32, 0, 16, 16);
-
-		// Row 2
-		roadTexture = new TextureRegion(img, 0, 16, 16, 16);
-		sandTexture = new TextureRegion(img, 16, 16, 16, 16);
-
-		// Generate a starting map
 		genMap();
 	}
 
@@ -73,15 +47,15 @@ public class GameScreen implements Screen {
 				float value = 0;
 				value = (float) noiseGen.turbulence(x, y, 25);
 				if (value < 0.36f) {
-					map[x][y] = Terrain.WATER;
+					map[x][y] = Resources.SpriteName.WATER;
 				} else if (value < 0.43f) {
-					map[x][y] = Terrain.SAND;
+					map[x][y] = Resources.SpriteName.SAND;
 				} else if (value < 0.55f) {
-					map[x][y] = Terrain.GRASS;
+					map[x][y] = Resources.SpriteName.GRASS;
 				} else if (value < 0.70f) {
-					map[x][y] = Terrain.FOREST;
+					map[x][y] = Resources.SpriteName.FOREST;
 				} else {
-					map[x][y] = Terrain.MOUNTAIN;
+					map[x][y] = Resources.SpriteName.MOUNTAIN;
 				}
 			}
 		}
@@ -113,24 +87,7 @@ public class GameScreen implements Screen {
 		batch.begin();
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
-				switch (map[x][y]) {
-				case GRASS:
-					batch.draw(grassTexture, x * 16, y * 16);
-					break;
-				case WATER:
-					batch.draw(waterTexture, x * 16, y * 16);
-					break;
-				case SAND:
-					batch.draw(sandTexture, x * 16, y * 16);
-					break;
-				case FOREST:
-					batch.draw(forestTexture, x * 16, y * 16);
-					break;
-				case MOUNTAIN:
-					batch.draw(roadTexture, x * 16, y * 16);
-				default:
-					break;
-				}
+				batch.draw(resources.getSprite(map[x][y]), x * 16, y * 16);
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
@@ -157,7 +114,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		img.dispose();
+		resources.dispose();
 		batch.dispose();
 		this.dispose();
 	}

@@ -7,8 +7,6 @@ public class LudumDare29 extends Game implements ApplicationListener {
 
 	GameScreen gameScreen;
 
-	int[][] map;
-
 	@Override
 	public void create() {
 		gameScreen = new GameScreen();
