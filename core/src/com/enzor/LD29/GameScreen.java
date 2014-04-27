@@ -2,6 +2,7 @@ package com.enzor.LD29;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.enzor.LD29.controller.Controller;
 import com.enzor.LD29.helpers.NoiseGenerator;
 
 public class GameScreen implements Screen {
@@ -19,8 +21,8 @@ public class GameScreen implements Screen {
 	private SpriteBatch batch;
 
 	Resources.SpriteName[][] map;
-	int w = 192;
-	int h = 128;
+	int w = 80;
+	int h = 50;
 
 	@Override
 	public void show() {
@@ -33,11 +35,26 @@ public class GameScreen implements Screen {
 		map = new Resources.SpriteName[w][h];
 
 		// Setup camera with 2X zoom
-		camera = new OrthographicCamera(Gdx.graphics.getWidth() * 4, Gdx.graphics.getHeight() * 4);
-		camera.translate(Gdx.graphics.getWidth() * 2, Gdx.graphics.getHeight() * 2);
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		camera.update();
 
 		genMap();
+
+		// Override the default input processor to get one-off key pushed events
+		Gdx.input.setInputProcessor(new Controller() {
+			@Override
+			public boolean keyDown(int keyCode) {
+				switch (keyCode) {
+				case Input.Keys.SPACE:
+					genMap();
+					break;
+				case Input.Keys.ESCAPE:
+					Gdx.app.exit();
+				}
+				return true;
+			}
+		});
 	}
 
 	private void genMap() {
@@ -45,7 +62,7 @@ public class GameScreen implements Screen {
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
 				float value = 0;
-				value = (float) noiseGen.turbulence(x, y, 25);
+				value = (float) noiseGen.turbulence(x, y, 16);
 				if (value < 0.36f) {
 					map[x][y] = Resources.SpriteName.WATER;
 				} else if (value < 0.43f) {
@@ -90,9 +107,7 @@ public class GameScreen implements Screen {
 				batch.draw(resources.getSprite(map[x][y]), x * 16, y * 16);
 			}
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-			genMap();
-		}
+
 		batch.end();
 	}
 

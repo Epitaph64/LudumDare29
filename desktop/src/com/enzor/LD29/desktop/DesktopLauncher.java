@@ -9,8 +9,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Ludum Dare 29";
 		config.useGL30 = false;
-		config.width = 768;
-		config.height = 512;
+		config.width = 1280;
+		config.height = 800;
 		new LwjglApplication(new LudumDare29(), config);
 	}
 }
