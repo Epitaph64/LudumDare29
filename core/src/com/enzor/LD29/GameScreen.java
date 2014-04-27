@@ -15,12 +15,11 @@ import com.enzor.LD29.helpers.NoiseGenerator;
 
 public class GameScreen implements Screen {
 
-	private Resources resources;
-
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 
 	Resources.SpriteName[][] map;
+
 	int w = 80;
 	int h = 50;
 
@@ -31,12 +30,11 @@ public class GameScreen implements Screen {
 		batch = new SpriteBatch();
 
 		// Init variables
-		resources = new Resources();
 		map = new Resources.SpriteName[w][h];
 
 		// Setup camera with 2X zoom
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.translate(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		camera = new OrthographicCamera(w << 4, h << 4);
+		camera.translate(w << 3, h << 3);
 		camera.update();
 
 		genMap();
@@ -104,7 +102,7 @@ public class GameScreen implements Screen {
 		batch.begin();
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
-				batch.draw(resources.getSprite(map[x][y]), x * 16, y * 16);
+				batch.draw(LudumDare29.resources.getSprite(map[x][y]), x * 16, y * 16);
 			}
 		}
 
@@ -113,6 +111,9 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
+		camera = new OrthographicCamera(w * 16, h * 16);
+		camera.translate(w * 8, h * 8);
+		camera.update();
 	}
 
 	@Override
@@ -129,7 +130,6 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		resources.dispose();
 		batch.dispose();
 		this.dispose();
 	}

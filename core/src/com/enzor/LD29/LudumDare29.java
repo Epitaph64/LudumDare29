@@ -5,16 +5,20 @@ import com.badlogic.gdx.Game;
 
 public class LudumDare29 extends Game implements ApplicationListener {
 
+	public static Resources resources;
+
 	GameScreen gameScreen;
 
 	@Override
 	public void create() {
+		resources = new Resources();
 		gameScreen = new GameScreen();
 		setScreen(gameScreen);
 	}
 
 	@Override
 	public void dispose() {
+		resources.dispose();
 		super.dispose();
 	}
 
