@@ -23,8 +23,11 @@ public class OverworldScreen implements Screen {
 	int w = 80;
 	int h = 50;
 
-	@Override
-	public void show() {
+	private LudumDare29 game;
+
+	// On game start
+	public OverworldScreen(LudumDare29 ludumDare29) {
+		this.game = ludumDare29;
 
 		// Create SpriteBatch and load necessary textures
 		batch = new SpriteBatch();
@@ -39,11 +42,20 @@ public class OverworldScreen implements Screen {
 
 		genMap();
 
+	}
+
+	// Called each time screen is switched to
+	@Override
+	public void show() {
+
 		// Override the default input processor to get one-off key pushed events
 		Gdx.input.setInputProcessor(new Controller() {
 			@Override
 			public boolean keyDown(int keyCode) {
 				switch (keyCode) {
+				case Input.Keys.NUM_2:
+					game.changeScreen(LudumDare29.ScreenType.BATTLE);
+					break;
 				case Input.Keys.SPACE:
 					genMap();
 					break;
@@ -78,28 +90,12 @@ public class OverworldScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-
-		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-			camera.translate(new Vector2(-250 * Gdx.graphics.getDeltaTime(), 0));
-			camera.update();
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-			camera.translate(new Vector2(250 * Gdx.graphics.getDeltaTime(), 0));
-			camera.update();
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			camera.translate(new Vector2(0, 250 * Gdx.graphics.getDeltaTime()));
-			camera.update();
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-			camera.translate(new Vector2(0, -250 * Gdx.graphics.getDeltaTime()));
-			camera.update();
-		}
-
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
+
 		batch.begin();
+
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
 				batch.draw(Resources.getSprite(map[x][y]), x * 16, y * 16);

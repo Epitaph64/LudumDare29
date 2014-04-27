@@ -5,15 +5,21 @@ import com.badlogic.gdx.Game;
 
 public class LudumDare29 extends Game implements ApplicationListener {
 
-	public static Resources resources;
+	enum ScreenType {
+		BATTLE(), OVERWORLD;
+	}
 
-	OverworldScreen gameScreen;
+	ScreenType currentScreen = ScreenType.BATTLE;
+
+	OverworldScreen overworldScreen;
+	BattleScreen battleScreen;
 
 	@Override
 	public void create() {
 		Resources.initializeResources();
-		gameScreen = new OverworldScreen();
-		setScreen(gameScreen);
+		overworldScreen = new OverworldScreen(this);
+		battleScreen = new BattleScreen(this);
+		setScreen(battleScreen);
 	}
 
 	@Override
@@ -40,5 +46,17 @@ public class LudumDare29 extends Game implements ApplicationListener {
 	@Override
 	public void resume() {
 		super.resume();
+	}
+
+	public void changeScreen(ScreenType type) {
+		currentScreen = type;
+		switch (currentScreen) {
+		case BATTLE:
+			setScreen(battleScreen);
+			break;
+		case OVERWORLD:
+			setScreen(overworldScreen);
+			break;
+		}
 	}
 }
