@@ -21,6 +21,10 @@ public class Fighter implements Comparable<Fighter> {
 	ArrayList<Buff> debuffs;
 	ArrayList<GearItem> gear;
 	
+	//Attacking stuff
+	Weapon weapon; //if has a weapon
+	boolean hasWeapon;
+	
 	//Movetimer
 	float moveTimer; //The amount of 'move points' needed before the fighter can perform another action
 	boolean canMove;
@@ -28,13 +32,34 @@ public class Fighter implements Comparable<Fighter> {
 	//Action
 	Action nextAction;
 	
+	//Party
+	Party ownerParty;
+	
+	static float getAttackDamage(Fighter attacker, Fighter target)
+	{
+		attacker.strength.calculateFinalValue();
+		target.defense.calculateFinalValue();
+		float damage = attacker.strength.finalValue;
+		if(attacker.hasWeapon)
+			damage *= attacker.weapon.getDamageRoll();
+		
+		return damage/target.defense.finalValue;
+	}
+	
+	void setNextAction(Action action)
+	{
+		nextAction = action;
+	}
+	
 	void doNextAction()
 	{
 		if(nextAction.type == ActionType.ACTION_ATTACK)
 		{
-			//todo
-			//nextAction.target.currentHealth -= strength.finalValue; //todo will finalValue have been calculated by then?
+			nextAction.target.currentHealth -= getAttackDamage(this, nextAction.target);
 		}
+		
+		moveTimer += nextAction.timeCost;
+		canMove = false;
 	}
 	
 	void processTurn()
