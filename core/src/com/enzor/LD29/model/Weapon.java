@@ -8,6 +8,7 @@ public class Weapon extends GearItem {
 	
 	int minDamage;
 	int maxDamage;
+	float attackTimeCost; //todo set this.
 	
 	int getDamageRoll()
 	{
