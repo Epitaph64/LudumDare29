@@ -1,14 +1,11 @@
 package com.enzor.LD29.model;
 
-import com.enzor.LD29.model.Action.ActionType;
-
 public class BasicAttack extends Action{
 
 	public BasicAttack(Fighter attacker, Fighter defender)
 	{
 		actor = attacker;
 		target = defender;
-		type = ActionType.ACTION_ATTACK;
 		timeCost = 10;
 		if(attacker.hasWeapon)
 			timeCost += attacker.weapon.attackTimeCost;
@@ -17,7 +14,7 @@ public class BasicAttack extends Action{
 	@Override
 	public void perform()
 	{
-			target.currentHealth -= Fighter.getAttackDamage(actor, target);
+			target.damage(Fighter.getAttackDamage(actor, target));
 	}
 	
 }

@@ -1,14 +1,6 @@
 package com.enzor.LD29.model;
 
 public class Action {
-
-	enum ActionType
-	{
-		ACTION_ATTACK
-	}
-	
-	ActionType type;
-	
 	
 	//rework the action class...
 	Fighter actor;

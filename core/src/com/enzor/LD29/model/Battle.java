@@ -3,8 +3,6 @@ package com.enzor.LD29.model;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-import com.enzor.LD29.model.Action.ActionType;
-
 public class Battle {
 
 	Party team1;
