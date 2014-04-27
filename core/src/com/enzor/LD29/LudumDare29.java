@@ -7,12 +7,12 @@ public class LudumDare29 extends Game implements ApplicationListener {
 
 	public static Resources resources;
 
-	GameScreen gameScreen;
+	OverworldScreen gameScreen;
 
 	@Override
 	public void create() {
 		resources = new Resources();
-		gameScreen = new GameScreen();
+		gameScreen = new OverworldScreen();
 		setScreen(gameScreen);
 	}
 

@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.enzor.LD29.controller.Controller;
 import com.enzor.LD29.helpers.NoiseGenerator;
 
-public class GameScreen implements Screen {
+public class OverworldScreen implements Screen {
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
