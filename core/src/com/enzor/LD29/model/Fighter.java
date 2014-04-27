@@ -52,12 +52,8 @@ public class Fighter implements Comparable<Fighter> {
 	}
 	
 	void doNextAction()
-	{
-		if(nextAction.type == ActionType.ACTION_ATTACK)
-		{
-			nextAction.target.currentHealth -= getAttackDamage(this, nextAction.target);
-		}
-		
+	{		
+		nextAction.perform();
 		moveTimer += nextAction.timeCost;
 		canMove = false;
 	}

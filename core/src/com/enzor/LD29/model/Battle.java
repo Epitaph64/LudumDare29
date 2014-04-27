@@ -59,7 +59,8 @@ public class Battle {
 			else
 			{
 				//Bad AI for now - attack first of player's team
-				nextFighter.setNextAction(new Action(ActionType.ACTION_ATTACK, team1.fighters.get(0)));
+				//nextFighter.setNextAction(new Action(ActionType.ACTION_ATTACK, team1.fighters.get(0)));
+				nextFighter.setNextAction(new BasicAttack(nextFighter, team1.fighters.get(0)));
 				nextFighter.doNextAction();
 			}
 		}
