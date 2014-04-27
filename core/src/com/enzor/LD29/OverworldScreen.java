@@ -36,7 +36,7 @@ public class OverworldScreen implements Screen {
 		map = new Resources.SpriteName[w][h];
 
 		// Setup camera with 2X zoom
-		camera = new OrthographicCamera(w << 4, h << 4);
+		camera = new OrthographicCamera(w << 3, h << 3);
 		camera.translate(w << 3, h << 3);
 		camera.update();
 
@@ -68,11 +68,11 @@ public class OverworldScreen implements Screen {
 	}
 
 	private void genMap() {
-		NoiseGenerator noiseGen = new NoiseGenerator(w >> 2, h >> 2);
+		NoiseGenerator noiseGen = new NoiseGenerator(w >> 4, h >> 4);
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
 				float value = 0;
-				value = (float) noiseGen.turbulence(x, y, 16);
+				value = (float) noiseGen.turbulence(x, y, 25);
 				if (value < 0.36f) {
 					map[x][y] = Resources.SpriteName.WATER;
 				} else if (value < 0.43f) {

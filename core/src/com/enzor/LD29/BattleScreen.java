@@ -75,7 +75,7 @@ public class BattleScreen implements Screen {
 		batch.begin();
 		for (int x = -5; x < 15; x++) {
 			for (int y = 0; y < 7; y++) {
-				batch.draw(Resources.getSprite(SpriteName.MOUNTAIN), x * 16, y * 16);
+				batch.draw(Resources.getSprite(SpriteName.GRASS), x * 16, y * 16);
 			}
 		}
 		batch.end();
